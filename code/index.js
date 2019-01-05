@@ -5,8 +5,8 @@ const api = express()
 
 db.open('api.db').then(() => {
   Promise.all([
-    db.run("CREATE TABLE IF NOT EXISTS passwords (password, email, user, created_at, updated_at)"),
-    db.run("CREATE TABLE IF NOT EXISTS users (login, password, created_at, updated_at)")
+    db.run("CREATE TABLE IF NOT EXISTS passwords (password, email, site, user, created_at, updated_at)"),
+    db.run("CREATE TABLE IF NOT EXISTS users (login, password, public_key, private_key, created_at, updated_at)")
   ]).then(() => {
     console.log('Database is ready')
   }).catch((err) => {
@@ -20,7 +20,8 @@ api.use(bodyParser.urlencoded({ extended: false }))
 // api.use(methodOverride(‘_method’))
 
 // ROUTES
-api.use('/', require('./controllers/todos'))
+api.use('/', require('./routes/passwords'))
+api.use('/', require('./routes/users'))
 
 api.listen(3000);
 
