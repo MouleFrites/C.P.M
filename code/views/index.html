@@ -30,7 +30,7 @@
         background: #fff;
         margin: 80px auto;
         position: relative;
-        min-height: 300px;
+        min-height: 320px;
       }
       #fieldsets {
         position: absolute;
@@ -42,10 +42,8 @@
         box-sizing: border-box;
         overflow: hidden;
       }
-      input[type=text],
-      input[type=email],
-      input[type=password],
-      input[type=tel],
+      input,
+      select,
       textarea {
         display: block;
         -webkit-appearance: none;
@@ -215,8 +213,8 @@
           <input id="passwdinscri" type="password" placeholder="Password">
           <center><button type="submit" value="Validez" onclick="envoiApi2()">Create user</button></center>
           <span style="font-weight: bold;">- Delete user</span><br/>
-          <input id="iddelusr" type="number" placeholder="Id"><br>
-          <input id="userdelusr" type="text" placeholder="User"><br>
+          <input id="iddelusr" type="number" placeholder="Id">
+          <input id="userdelusr" type="text" placeholder="User">
           <center><button type="submit" value="Validez" onclick="envoiApi()">Delete user</button></center>
         </fieldset>
         <fieldset class="next">
@@ -234,20 +232,20 @@
           <center><button type="submit" value="Validez" onclick="envoiApi4()">Search passwords</button></center>
         </fieldset>
         <fieldset class="next">
-          <span style="font-weight: bold;">- Update password</span><br/>
+          <span style="font-weight: bold;">- Update password</span>
           <select id="toupdate" size="1">
               <option>password</option><br>
               <option>email</option><br>
               <option>site</option><br>
               <option>user</option><br>
-          </select><br>
-          <input id="idupdatepass" type="number" placeholder="Id"><br>
+          </select>
+          <input id="idupdatepass" type="number" placeholder="Id">
           <input id="userupdatepass" type="text" placeholder="User">
           <input id="update" type="text" placeholder="Update">
           <center><button type="button" value="Validez" onclick="envoiApi6()">Update password</button></center>
           <span style="font-weight: bold;">- Delete password</span><br/>
-          <input id="iddelpass" type="number" placeholder="Id"><br>
-          <input id="userdelpass" type="text" placeholder="User"><br>
+          <input id="iddelpass" type="number" placeholder="Id">
+          <input id="userdelpass" type="text" placeholder="User">
           <center><button type="button" value="Validez" onclick="envoiApi5()">Delete password</button>
         </fieldset>
       </div>
