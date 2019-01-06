@@ -32,16 +32,18 @@ module.exports = {
     toChange = query.toChange
     change = query.change
     user = query.user
-    if (toChange == "password") {
-      return db.run("UPDATE passwords SET password = ? WHERE user = ? AND rowid = ?", change, user, id)
-    } else if (toChange == "email") {
-      return db.run("UPDATE passwords SET email = ? WHERE user = ? AND rowid = ?", change, user, id)
-    } else if (toChange == "site") {
-      return db.run("UPDATE passwords SET site = ? WHERE user = ? AND rowid = ?", change, user, id)
-    } else if (toChange == "user") {
-      return db.run("UPDATE passwords SET user = ? WHERE user = ? AND rowid = ?", change, user, id)
-    } else {
-      return console.log("Bad configuration")
+    switch (toChange) {
+      case 'password' :
+        return db.run("UPDATE passwords SET password = ? WHERE user = ? AND rowid = ?", change, user, id)
+      case 'email' :
+        return db.run("UPDATE passwords SET email = ? WHERE user = ? AND rowid = ?", change, user, id)
+      case 'site' :
+        return db.run("UPDATE passwords SET site = ? WHERE user = ? AND rowid = ?", change, user, id)
+      case 'user' :
+       return db.run("UPDATE passwords SET user = ? WHERE user = ? AND rowid = ?", change, user, id)
+      default :
+        return console.log("Bad configuration")
     }
   }
 }
+
