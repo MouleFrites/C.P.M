@@ -1,65 +1,312 @@
 <!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="utf-8" />
+<html lang="en" >
+  <head>
+    <meta charset="UTF-8">
     <title>C.P.M</title>
-    <!--<link href="index.css" rel="stylesheet" media="all" type="text/css">-->
-</head>
-
-<body>
-
-    <div id="Passwords" style="text-align:center;">
-        <p>Passwords</p>
-        <input id="user" type="text" placeholder="user">
-        <button type="submit" value="Validez" onclick="envoiApi4()">Récuperer</button>
-    </div>
-    <br>
-    <div id="NewPassword" style="text-align:center;">
-        <p>New Password</p>
-        <input id="password" type="text" placeholder="Password">
-        <br>
-        <input id="email" type="mail" placeholder="Email">
-        <br>
-        <input id="site" type="text" placeholder="Site">
-        <br>
-        <input id="user2" type="text" placeholder="User">
-        <br>
-        <button type="submit" value="Validez" onclick="envoiApi3()">Envoi</button>
-    </div>
-    <div id="deletepassword" style="text-align:center;">
-        <p>Delete Password</p>
-        <input id="iddelpass" type="number" placeholder="Id"><br>
-        <input id="userdelpass" type="text" placeholder="User"><br>
-        <button type="button" value="Validez" onclick="envoiApi5()">Envoi</button>
-    </div>
-    <div id="updatepassword" style="text-align:center;">
-        <p>Update Password</p>
-        <select id="toupdate" size="1">
-            <option>password</option><br>
-            <option>email</option><br>
-            <option>site</option><br>
-            <option>user</option><br>
-        </select><br>
-        <input id="idupdatepass" type="number" placeholder="Id"><br>
-        <input id="userupdatepass" type="text" placeholder="User"><br>
-        <input id="update" type="text" placeholder="Update"><br>
-        <button type="button" value="Validez" onclick="envoiApi6()">Envoi</button>
-    <div id="createuser" style="text-align:center;">
-        <p>Create User</p>
-        <input id="logininscri" type="text" placeholder="Pseudo"><br>
-        <input id="passwdinscri" type="password" placeholder="Password"><br>
-        <button type="submit" value="Validez" onclick="envoiApi2()">Envoi</button>
-    </div>
-    <div id="deleteuser" style="text-align:center;">
-        <p>Delete User</p>
-        <input id="iddelusr" type="number" placeholder="Id"><br>
-        <input id="userdelusr" type="text" placeholder="User"><br>
-        <button type="submit" value="Validez" onclick="envoiApi()">Envoi</button>
-    </div>
+    <style>
+      @font-face {
+        font-family: 'Merriweather Sans';
+        font-style: normal;
+        font-weight: 300;
+        src: local('Merriweather Sans Light'), local('MerriweatherSans-Light'), url(https://fonts.gstatic.com/s/merriweathersans/v9/2-c49IRs1JiJN1FRAMjTN5zd9vgsFH1eYCDE0hM.ttf) format('truetype');
+      }
+      @font-face {
+        font-family: 'Merriweather Sans';
+        font-style: normal;
+        font-weight: 700;
+        src: local('Merriweather Sans Bold'), local('MerriweatherSans-Bold'), url(https://fonts.gstatic.com/s/merriweathersans/v9/2-c49IRs1JiJN1FRAMjTN5zd9vgsFH1OZyDE0hM.ttf) format('truetype');
+      }
+      body {
+        background: url(http://farm5.staticflickr.com/4139/4825532997\_7a7cd3d640\_b.jpg);
+        background-size: cover;
+        height: 100%;
+        font-family: 'Merriweather Sans', sans-serif;
+        color: #666;
+      }
+      #signup {
+        width: 600px;
+        height: auto;
+        padding: 20px;
+        background: #fff;
+        margin: 80px auto;
+        position: relative;
+        min-height: 300px;
+      }
+      #fieldsets {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+        overflow: hidden;
+      }
+      input[type=text],
+      input[type=email],
+      input[type=password],
+      input[type=tel],
+      textarea {
+        display: block;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        width: 100%;
+        box-sizing: border-box;
+        border: 1px solid #ddd;
+        padding: 8px;
+        margin-bottom: 8px;
+        position: relative;
+      }
+      input[type=text]:focus,
+      input[type=email]:focus,
+      input[type=password]:focus,
+      input[type=tel]:focus,
+      textarea:focus {
+        outline: none;
+        border: 1px solid #22918b;
+      }
+      input[type=radio] {
+        margin: 6px;
+        display: inline-block;
+      }
+      fieldset {
+        border: none;
+        position: absolute;
+        left: -640px;
+        width: 600px;
+        padding: 10px 0;
+        transition: all 0.3s linear;
+        -webkit-transition: all 0.3s linear;
+        -moz-transition: all 0.3s linear;
+        -ms-transition: all 0.3s linear;
+        opacity: 0;
+      }
+      fieldset.current {
+        left: 20px;
+        opacity: 1;
+      }
+      fieldset.next {
+        left: 640px;
+      }
+      input[type=submit] {
+        display: none;
+        border: none;
+      }
+      #section-tabs {
+        font-size: 0.8em;
+        height: 50px;
+        position: relative;
+        margin-top: -50px;
+        margin-bottom: 50px;
+        padding: 0;
+        font-weight: bold;
+        list-style: none;
+        text-transform: uppercase;
+      }
+      #section-tabs li {
+        color: #a7a7a7;
+        cursor: pointer;
+        border-left: 1px solid #aaa;
+        text-decoration: none;
+        padding: 0 6px;
+        float: left;
+        width: 25%;
+        box-sizing: border-box;
+        text-align: center;
+        font-weight: bold;
+        line-height: 30px;
+        background: #ddd;
+        position: relative;
+      }
+      #section-tabs li span {
+        color: #bababa;
+      }
+      #section-tabs li.active {
+        color: #444;
+        cursor: pointer;
+      }
+      #section-tabs li:after {
+        content: "";
+        display: block;
+        margin-left: 0;
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+      #section-tabs li.current {
+        opacity: 1;
+        background: #fff;
+        z-index: 999;
+        border-left: none;
+      }
+      #section-tabs li.current:after {
+        border: 15px solid transparent;
+        border-left: 15px solid #2cbab2;
+      }
+      .error {
+        color: #bf2424;
+        display: block;
+      }
+      input.error,
+      textarea.error {
+        border-color: #bf2424;
+      }
+      input.error:focus,
+      textarea.error:focus {
+        border-color: #bf2424;
+      }
+      label.error {
+        margin-bottom: 20px;
+      }
+      input.valid {
+        color: green;
+      }
+      label.valid {
+        position: absolute;
+        right: 20px;
+      }
+      input + .valid,
+      textarea + .valid {
+        display: none;
+      }
+      .valid + .valid {
+        display: inline;
+        position: absolute;
+        right: 10px;
+        margin-top: -36px;
+        color: green;
+      }
+      .btn {
+        border: none;
+        padding: 8px;
+        background: #2cbab2;
+        cursor: pointer;
+        transition: all 0.3s;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        color: #fff;
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        font-family: 'Merriweather Sans', sans-serif;
+      }
+      .btn:hover {
+        background: #26a19a;
+      }
+      #result{
+        background: white;
+        padding: 20px;
+        border-radius: 25px;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="signup" action="somewhere" method="POST">
+      <ul id="section-tabs">
+        <li class="current active"><span>1.</span> Users</li>
+        <li><span>2.</span> Add pass</li>
+        <li><span>3.</span> Search pass</li>
+        <li><span>4.</span> Edit pass</li>
+      </ul>
+      <div id="fieldsets">
+        <fieldset class="current">
+          <span style="font-weight: bold;">- Create user</span><br/>
+          <input id="logininscri" type="text" placeholder="Pseudo">
+          <input id="passwdinscri" type="password" placeholder="Password">
+          <center><button type="submit" value="Validez" onclick="envoiApi2()">Create user</button></center>
+          <span style="font-weight: bold;">- Delete user</span><br/>
+          <input id="iddelusr" type="number" placeholder="Id"><br>
+          <input id="userdelusr" type="text" placeholder="User"><br>
+          <center><button type="submit" value="Validez" onclick="envoiApi()">Delete user</button></center>
+        </fieldset>
+        <fieldset class="next">
+          <span style="font-weight: bold;">- Add password</span><br/>
+          <input id="password" type="text" placeholder="Password">
+          <input id="password" type="text" placeholder="Password">
+          <input id="email" type="text" placeholder="Email">
+          <input id="site" type="text" placeholder="Site">
+          <input id="user2" type="text" placeholder="User">
+          <center><button type="submit" value="Validez" onclick="envoiApi3()">Add password</button></center>
+        </fieldset>
+        <fieldset class="next">
+          <span style="font-weight: bold;">- Search passwords</span><br/>
+          <input id="user" type="text" placeholder="user">
+          <center><button type="submit" value="Validez" onclick="envoiApi4()">Search passwords</button></center>
+        </fieldset>
+        <fieldset class="next">
+          <span style="font-weight: bold;">- Update password</span><br/>
+          <select id="toupdate" size="1">
+              <option>password</option><br>
+              <option>email</option><br>
+              <option>site</option><br>
+              <option>user</option><br>
+          </select><br>
+          <input id="idupdatepass" type="number" placeholder="Id"><br>
+          <input id="userupdatepass" type="text" placeholder="User">
+          <input id="update" type="text" placeholder="Update">
+          <center><button type="button" value="Validez" onclick="envoiApi6()">Update password</button></center>
+          <span style="font-weight: bold;">- Delete password</span><br/>
+          <input id="iddelpass" type="number" placeholder="Id"><br>
+          <input id="userdelpass" type="text" placeholder="User"><br>
+          <center><button type="button" value="Validez" onclick="envoiApi5()">Delete password</button>
+        </fieldset>
+      </div>
+    </form>
     <div id="result" style="text-align:center;">
-    </div>
-
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script>
+      $("body").on("keyup", "form", function(e){
+        if (e.which == 13){
+          if ($("#next").is(":visible") && $("fieldset.current").find("input, textarea").valid() ){
+            e.preventDefault();
+            nextSection();
+            return false;
+          }
+        }
+      });
+      
+      
+      $("#next").on("click", function(e){
+        console.log(e.target);
+        nextSection();
+      });
+      
+      $("form").on("submit", function(e){
+        if ($("#next").is(":visible") || $("fieldset.current").index() < 3){
+          e.preventDefault();
+        }
+      });
+      
+      function goToSection(i){
+        $("fieldset:gt("+i+")").removeClass("current").addClass("next");
+        $("fieldset:lt("+i+")").removeClass("current");
+        $("li").eq(i).addClass("current").siblings().removeClass("current");
+        setTimeout(function(){
+          $("fieldset").eq(i).removeClass("next").addClass("current active");
+            if ($("fieldset.current").index() == 3){
+              $("#next").hide();
+              $("input[type=submit]").show();
+            } else {
+              $("#next").show();
+              $("input[type=submit]").hide();
+            }
+        }, 80);
+      
+      }
+      
+      function nextSection(){
+        var i = $("fieldset.current").index();
+        if (i < 3){
+          $("li").eq(i+1).addClass("active");
+          goToSection(i+1);
+        }
+      }
+      
+      $("li").on("click", function(e){
+        var i = $(this).index();
+        goToSection(i);
+      });
+    </script>
     <script type="text/javascript">
         function actionSend(aValue, aDest, bValue) {
             //Fonction de convertion objet js => url encoded
@@ -164,6 +411,5 @@
             actionSend(values, 6, idupdate);
         }
     </script>
-</body>
-
+  </body>
 </html>
