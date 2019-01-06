@@ -2,6 +2,7 @@ const db = require('sqlite')
 const express = require('express')
 const bodyParser = require('body-parser')
 const api = express()
+const path = require('path')
 
 db.open('api.db').then(() => {
   Promise.all([
@@ -22,6 +23,10 @@ api.use(bodyParser.urlencoded({ extended: false }))
 // ROUTES
 api.use('/', require('./routes/passwords'))
 api.use('/', require('./routes/users'))
+
+api.use(express.static(path.join(__dirname, 'html_page')));
+api.engine('html', require('ejs').renderFile);
+api.set('view engine', 'html');
 
 api.listen(3000);
 

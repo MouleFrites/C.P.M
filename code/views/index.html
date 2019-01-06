@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>C.P.M</title>
+    <!--<link href="index.css" rel="stylesheet" media="all" type="text/css">-->
+</head>
+
+<body>
+
+    <div id="Passwords" style="text-align:center;">
+        <p>Passwords</p>
+        <input id="user" type="text" placeholder="user">
+        <button type="submit" value="Validez" onclick="envoiApi4()">Récuperer</button>
+    </div>
+    <br>
+    <div id="NewPassword" style="text-align:center;">
+        <p>New Password</p>
+        <input id="password" type="text" placeholder="Password">
+        <br>
+        <input id="email" type="mail" placeholder="Email">
+        <br>
+        <input id="site" type="text" placeholder="Site">
+        <br>
+        <input id="user2" type="text" placeholder="User">
+        <br>
+        <button type="submit" value="Validez" onclick="envoiApi3()">Envoi</button>
+    </div>
+    <div id="deletepassword" style="text-align:center;">
+        <p>Delete Password</p>
+        <input id="iddelpass" type="number" placeholder="Id"><br>
+        <input id="userdelpass" type="text" placeholder="User"><br>
+        <button type="button" value="Validez" onclick="envoiApi5()">Envoi</button>
+    </div>
+    <div id="updatepassword" style="text-align:center;">
+        <p>Update Password</p>
+        <select id="toupdate" size="1">
+            <option>password</option><br>
+            <option>email</option><br>
+            <option>site</option><br>
+            <option>user</option><br>
+        </select><br>
+        <input id="idupdatepass" type="number" placeholder="Id"><br>
+        <input id="userupdatepass" type="text" placeholder="User"><br>
+        <input id="update" type="text" placeholder="Update"><br>
+        <button type="button" value="Validez" onclick="envoiApi6()">Envoi</button>
+    <div id="createuser" style="text-align:center;">
+        <p>Create User</p>
+        <input id="logininscri" type="text" placeholder="Pseudo"><br>
+        <input id="passwdinscri" type="password" placeholder="Password"><br>
+        <button type="submit" value="Validez" onclick="envoiApi2()">Envoi</button>
+    </div>
+    <div id="deleteuser" style="text-align:center;">
+        <p>Delete User</p>
+        <input id="iddelusr" type="number" placeholder="Id"><br>
+        <input id="userdelusr" type="text" placeholder="User"><br>
+        <button type="submit" value="Validez" onclick="envoiApi()">Envoi</button>
+    </div>
+    <div id="result" style="text-align:center;">
+    </div>
+
+    <script type="text/javascript">
+        function actionSend(aValue, aDest, bValue) {
+            //Fonction de convertion objet js => url encoded
+            function dataToUrlEncoded(data) {
+                var urlEncodedData = "";
+                var urlEncodedDataPairs = [];
+                var name;
+
+                for(name in data) {
+                    urlEncodedDataPairs.push(encodeURIComponent(name) + '=' + encodeURIComponent(data[name]));
+                }
+                urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
+                return urlEncodedData
+            }
+            if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            } else { // code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            };
+            xmlhttp.onreadystatechange = respond;
+            if (aDest == 1) {
+                xmlhttp.open("GET", "./passwords", true);
+                xmlhttp.send(myJsonString);
+                console.log(myJsonString)
+            } else if (aDest == 2) {
+                xmlhttp.open("POST", "./users", true);
+                xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xmlhttp.send(dataToUrlEncoded(aValue));
+            } else if (aDest == 3) {
+                xmlhttp.open("POST", "./passwords", true);
+                xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xmlhttp.send(dataToUrlEncoded(aValue));
+            } else if (aDest == 4) {
+                xmlhttp.open("GET", "./passwords?user=" + aValue, true);
+                xmlhttp.send();
+                console.log(aValue)
+            } else if (aDest == 5) {
+                xmlhttp.open("DELETE", "./passwords", true);
+                xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xmlhttp.send(dataToUrlEncoded(aValue));
+            } else if (aDest == 6) {
+                xmlhttp.open("PUT", "./passwords/" + bValue, true);
+                xmlhttp.setRequestHeader('Content-type','application/json; charset=utf-8');
+                var json = JSON.stringify(aValue);
+                xmlhttp.send(json);
+                console.log(json)
+            } else {
+                console.log("Bug dans la matrice")
+            }
+
+        }
+
+        function respond() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById('result').innerHTML = xmlhttp.responseText;
+            }
+        }
+
+        //FONCTION RECUPERATION VALEURS
+
+        function envoiApi4() {
+            values = document.getElementById("user").value
+            actionSend(values, 4);
+        }
+
+        function envoiApi3() {
+            var values = new Object();
+            values.password = document.getElementById("password").value
+            values.email = document.getElementById("email").value
+            values.site = document.getElementById("site").value
+            values.user = document.getElementById("user2").value
+            actionSend(values, 3);
+        }
+
+        function envoiApi2() {
+            var values = new Object();
+            values.pseudo = document.getElementById("logininscri").value
+            values.email = document.getElementById("passwdinscri").value
+            actionSend(values, 2);
+        }
+
+        function envoiApi() {
+            var values = new Object();
+            values.pseudo = document.getElementById("pseudoco").value
+            values.pass1 = document.getElementById("passco").value
+            actionSend(values, 1);
+        }
+
+        function envoiApi5() {
+            var values = new Object();
+            values.id = document.getElementById("iddelpass").value
+            values.user = document.getElementById("userdelpass").value
+            actionSend(values, 5);
+        }
+
+        function envoiApi6() {
+            var values = new Object();
+            values.toChange = document.getElementById("toupdate").value
+            values.change = document.getElementById("update").value
+            values.user = document.getElementById("userupdatepass").value
+            idupdate = document.getElementById("idupdatepass").value
+            actionSend(values, 6, idupdate);
+        }
+    </script>
+</body>
+
+</html>
